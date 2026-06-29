@@ -70,6 +70,8 @@ export type SiteContent = {
   altHref: string;
   title: string;
   description: string;
+  socialImage: string;
+  socialImageAlt: string;
   nav: NavItem[];
   header: {
     brandLine: string;
@@ -161,7 +163,9 @@ export const content: Record<Locale, SiteContent> = {
     altHref: "/en/",
     title: "شركة أونا للتكييف والكهروميكانيك | أنظمة التكييف المركزية",
     description:
-      "شركة أونا تقدم خدمات تركيب وصيانة وإصلاح وتنظيف المكيفات للمنازل والمنشآت في جميع مناطق المملكة العربية السعودية.",
+      "شركة أونا للتكييف والكهروميكانيك تقدم خدمات تركيب وصيانة وإصلاح وتنظيف المكيفات والعقود والتكييف المركزي في جميع مناطق المملكة العربية السعودية.",
+    socialImage: "/images/ona-central-commercial.png",
+    socialImageAlt: "شركة أونا للتكييف والكهروميكانيك - حلول تكييف مركزي وتجاري في السعودية",
     nav: arNav,
     header: {
       brandLine: "للتكييف والكهروميكانيك",
@@ -323,7 +327,9 @@ export const content: Record<Locale, SiteContent> = {
     altHref: "/",
     title: "Ona HVAC & Electromechanical | Central AC Systems Saudi Arabia",
     description:
-      "Ona Cooling provides AC installation, maintenance, repair, cleaning, and service contracts for homes and businesses across Saudi Arabia.",
+      "Ona HVAC & Electromechanical provides AC installation, maintenance, repair, cleaning, contracts, and central HVAC services across Saudi Arabia.",
+    socialImage: "/images/ona-central-commercial.png",
+    socialImageAlt: "Ona HVAC & Electromechanical - central HVAC and commercial cooling in Saudi Arabia",
     nav: enNav,
     header: {
       brandLine: "HVAC & Electromechanical",
