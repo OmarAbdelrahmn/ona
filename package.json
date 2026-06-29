@@ -1,0 +1,18 @@
+{
+  "name": "ona-static-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "set ASTRO_TELEMETRY_DISABLED=1&& astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "latest",
+    "astro": "latest",
+    "@lucide/astro": "latest",
+    "tailwindcss": "latest"
+  },
+  "devDependencies": {}
+}

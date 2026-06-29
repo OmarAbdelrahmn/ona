@@ -1,0 +1,103 @@
+---
+import Icon from "./Icon.astro";
+import type { SiteContent } from "@data/site";
+import { brand, getWhatsappUrl } from "@data/site";
+
+type Props = {
+  page: SiteContent;
+  altHref?: string;
+};
+
+const { page, altHref = page.altHref } = Astro.props;
+const whatsappUrl = getWhatsappUrl(page.locale);
+---
+
+<header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/92 backdrop-blur-xl">
+  <div class="container-x flex min-h-18 items-center justify-between gap-4">
+    <a href={page.locale === "ar" ? "/#home" : "/en/#home"} class="flex min-w-0 items-center gap-3" aria-label={page.hero.title}>
+      <span class="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-[color:var(--ona-navy)] text-white shadow-lg shadow-sky-900/12">
+        <Icon name="snowflake" class="h-6 w-6" strokeWidth={2.3} />
+      </span>
+      <span class="min-w-0">
+        <span class="block text-lg font-black leading-5 text-[color:var(--ona-navy)]">
+          {page.locale === "ar" ? brand.shortName : brand.enName}
+        </span>
+        <span class="block text-xs font-bold text-slate-500">{page.header.brandLine}</span>
+      </span>
+    </a>
+
+    <nav class="hidden items-center gap-5 lg:flex" aria-label={page.header.navLabel}>
+      {page.nav.map((item) => (
+        <a class="inline-flex min-h-10 items-center rounded-lg px-2 text-sm font-extrabold text-slate-700 transition hover:text-[color:var(--ona-blue)]" href={item.href}>
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="hidden items-center gap-2 lg:flex">
+      <a class="button-secondary px-3 text-sm" href={altHref} lang={page.altLocale}>
+        {page.langLabel}
+      </a>
+      <a class="button-secondary px-4 text-sm" href={whatsappUrl} target="_blank" rel="noreferrer">
+        <Icon name="whatsapp" class="h-4 w-4" />
+        {page.header.whatsapp}
+      </a>
+      <a class="button-primary px-4 text-sm" href={`tel:${brand.primaryPhone}`}>
+        <Icon name="phone" class="h-4 w-4" />
+        {page.header.call}
+      </a>
+    </div>
+
+    <button
+      class="grid h-11 w-11 place-items-center rounded-lg border border-slate-200 bg-white text-[color:var(--ona-navy)] lg:hidden"
+      type="button"
+      aria-label={page.header.menuLabel}
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      data-menu-toggle
+    >
+      <Icon name="menu" class="h-6 w-6 data-open:hidden" />
+      <span class="hidden" data-close-icon>
+        <Icon name="x" class="h-6 w-6" />
+      </span>
+    </button>
+  </div>
+
+  <nav id="mobile-menu" class="hidden border-t border-slate-200 bg-white lg:hidden" aria-label={page.header.navLabel} data-mobile-menu>
+    <div class="container-x grid gap-2 py-4">
+      {page.nav.map((item) => (
+        <a class="rounded-lg px-3 py-3 text-sm font-extrabold text-slate-700 hover:bg-sky-50 hover:text-[color:var(--ona-blue)]" href={item.href}>
+          {item.label}
+        </a>
+      ))}
+      <div class="mt-2 grid grid-cols-3 gap-2">
+        <a class="button-secondary px-3 text-sm" href={altHref} lang={page.altLocale}>{page.langLabel}</a>
+        <a class="button-secondary px-3 text-sm" href={whatsappUrl} target="_blank" rel="noreferrer">{page.header.whatsapp}</a>
+        <a class="button-primary px-3 text-sm" href={`tel:${brand.primaryPhone}`}>{page.header.call}</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.querySelector("[data-menu-toggle]");
+  const menu = document.querySelector("[data-mobile-menu]");
+  const closeIcon = document.querySelector("[data-close-icon]");
+
+  toggle?.addEventListener("click", () => {
+    const isOpen = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!isOpen));
+    menu?.classList.toggle("hidden", isOpen);
+    closeIcon?.classList.toggle("hidden", isOpen);
+    toggle.querySelector("svg")?.classList.toggle("hidden", !isOpen);
+  });
+
+  menu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      toggle?.setAttribute("aria-expanded", "false");
+      menu.classList.add("hidden");
+      closeIcon?.classList.add("hidden");
+      toggle?.querySelector("svg")?.classList.remove("hidden");
+    });
+  });
+</script>

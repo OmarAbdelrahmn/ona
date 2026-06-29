@@ -1,0 +1,90 @@
+---
+import Header from "@components/Header.astro";
+import Icon from "@components/Icon.astro";
+import type { SiteContent } from "@data/site";
+import { brand, getWhatsappUrl, localBusinessSchema } from "@data/site";
+import "@styles/global.css";
+
+type Props = {
+  page: SiteContent;
+  altHref?: string;
+  title?: string;
+  description?: string;
+  canonical?: string;
+};
+
+const { page, altHref, title = page.title, description = page.description, canonical = page.locale === "ar" ? "/" : "/en/" } = Astro.props;
+const whatsappUrl = getWhatsappUrl(page.locale);
+---
+
+<!doctype html>
+<html lang={page.locale} dir={page.dir}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#123d64" />
+    <meta name="robots" content="index, follow" />
+    <title>{title}</title>
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="ar" href="/" />
+    <link rel="alternate" hreflang="en" href="/en/" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={page.locale === "ar" ? "ar_SA" : "en_US"} />
+    <meta property="og:image" content="/images/ona-hero-hvac-ksa.png" />
+    <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)}></script>
+  </head>
+  <body class="antialiased">
+    <Header page={page} altHref={altHref} />
+    <main class="pb-20 md:pb-0">
+      <slot />
+    </main>
+    <footer class="border-t border-slate-200 bg-white">
+      <div class="container-x flex flex-col gap-5 py-8 text-sm text-slate-600 md:flex-row md:items-center md:justify-between">
+        <div class="flex items-center gap-3">
+          <span class="grid h-10 w-10 place-items-center rounded-lg bg-[color:var(--ona-navy)] text-white">
+            <Icon name="snowflake" class="h-5 w-5" />
+          </span>
+          <div>
+            <p class="font-black text-[color:var(--ona-navy)]">{page.locale === "ar" ? brand.arName : brand.enName}</p>
+            <p>{page.footerRights} {new Date().getFullYear()}</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <a class="inline-flex min-h-10 items-center font-bold hover:text-[color:var(--ona-blue)]" href={`tel:${brand.primaryPhone}`}>{brand.displayPrimaryPhone}</a>
+          <span aria-hidden="true">|</span>
+          <a class="inline-flex min-h-10 items-center font-bold hover:text-[color:var(--ona-blue)]" href={`mailto:${brand.email}`}>{brand.email}</a>
+        </div>
+      </div>
+    </footer>
+
+    <div class="pointer-events-none fixed inset-x-4 bottom-4 z-40 grid translate-y-24 grid-cols-2 gap-2 opacity-0 transition duration-300 md:hidden" data-mobile-actions>
+      <a class="button-secondary min-h-12 bg-white px-3 text-sm shadow-xl" href={whatsappUrl} target="_blank" rel="noreferrer">
+        <Icon name="whatsapp" class="h-4 w-4" />
+        {page.header.whatsapp}
+      </a>
+      <a class="button-primary min-h-12 px-3 text-sm shadow-xl" href={`tel:${brand.primaryPhone}`}>
+        <Icon name="phone" class="h-4 w-4" />
+        {page.header.call}
+      </a>
+    </div>
+
+    <script>
+      const mobileActions = document.querySelector("[data-mobile-actions]");
+      const toggleMobileActions = () => {
+        const shouldShow = window.scrollY > 420;
+        mobileActions?.classList.toggle("pointer-events-none", !shouldShow);
+        mobileActions?.classList.toggle("translate-y-24", !shouldShow);
+        mobileActions?.classList.toggle("opacity-0", !shouldShow);
+        mobileActions?.classList.toggle("pointer-events-auto", shouldShow);
+        mobileActions?.classList.toggle("translate-y-0", shouldShow);
+        mobileActions?.classList.toggle("opacity-100", shouldShow);
+      };
+
+      toggleMobileActions();
+      window.addEventListener("scroll", toggleMobileActions, { passive: true });
+    </script>
+  </body>
+</html>

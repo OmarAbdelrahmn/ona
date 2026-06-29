@@ -1,0 +1,106 @@
+---
+import Icon from "@components/Icon.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import type { SiteContent } from "@data/site";
+import { brand, getWhatsappUrl } from "@data/site";
+
+type Props = {
+  page: SiteContent;
+};
+
+const { page } = Astro.props;
+const isArabic = page.locale === "ar";
+const whatsappUrl = getWhatsappUrl(page.locale);
+const serviceTitle = isArabic ? "خدمات أونا للتكييف والكهروميكانيك" : "Ona HVAC & Electromechanical Services";
+const serviceDescription = isArabic
+  ? "تفاصيل خدمات التركيب والصيانة والتنظيف والعقود وأنظمة التكييف المركزي في جميع مناطق المملكة."
+  : "Detailed AC installation, maintenance, cleaning, contracts, and central HVAC services across Saudi Arabia.";
+---
+
+<BaseLayout
+  page={page}
+  altHref={isArabic ? "/en/services/" : "/services/"}
+  title={serviceTitle}
+  description={serviceDescription}
+  canonical={isArabic ? "/services/" : "/en/services/"}
+>
+  <section class="relative overflow-hidden bg-[color:var(--ona-navy)] text-white">
+    <div class="absolute inset-0 opacity-35">
+      <img src="/images/ona-central-commercial.png" alt="" class="h-full w-full object-cover" loading="eager" />
+    </div>
+    <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,61,100,0.98),rgba(18,61,100,0.82))]"></div>
+    <div class="container-x relative py-20 lg:py-28">
+      <p class="mb-4 inline-flex rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm font-black text-cyan-100">
+        {isArabic ? "صفحة الخدمات" : "Services page"}
+      </p>
+      <h1 class="max-w-3xl text-balance text-4xl font-black leading-tight md:text-6xl">{serviceTitle}</h1>
+      <p class="mt-5 max-w-2xl text-lg leading-9 text-sky-50/90">{serviceDescription}</p>
+      <p class="mt-3 max-w-2xl text-base font-bold leading-8 text-cyan-100">
+        {isArabic ? brand.addressAr : brand.addressEn}
+      </p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a class="button-primary px-6" href={`tel:${brand.primaryPhone}`}>
+          <Icon name="phone" class="h-5 w-5" />
+          {page.header.call}
+        </a>
+        <a class="button-secondary px-6" href={whatsappUrl} target="_blank" rel="noreferrer">
+          <Icon name="whatsapp" class="h-5 w-5" />
+          {page.header.whatsapp}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-white">
+    <div class="container-x">
+      <SectionHeading
+        eyebrow={page.sections.services.eyebrow}
+        title={page.sections.services.title}
+        description={page.sections.services.description}
+      />
+      <div class="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {page.services.map((service) => (
+          <article class="soft-card p-6">
+            <Icon name={service.icon} class="h-7 w-7 text-[color:var(--ona-blue)]" />
+            <h2 class="mt-5 text-xl font-black text-[color:var(--ona-navy)]">{service.title}</h2>
+            <p class="mt-3 leading-8 text-slate-600">{service.description}</p>
+            <ul class="mt-5 grid gap-2 text-sm font-bold text-slate-600">
+              <li class="flex items-center gap-2"><Icon name="check" class="h-4 w-4 text-[color:var(--ona-mint)]" />{isArabic ? "تشخيص قبل التنفيذ" : "Diagnosis before work"}</li>
+              <li class="flex items-center gap-2"><Icon name="check" class="h-4 w-4 text-[color:var(--ona-mint)]" />{isArabic ? "توجيه حسب المدينة" : "City-based coordination"}</li>
+              <li class="flex items-center gap-2"><Icon name="check" class="h-4 w-4 text-[color:var(--ona-mint)]" />{isArabic ? "متابعة بعد الخدمة" : "After-service follow-up"}</li>
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-[color:var(--ona-paper)]">
+    <div class="container-x grid gap-6 lg:grid-cols-3">
+      {page.imageServices.map((service) => (
+        <article class="soft-card overflow-hidden bg-white">
+          <img src={service.image} alt={service.alt} class="aspect-[16/10] w-full object-cover" loading="lazy" />
+          <div class="p-6">
+            <h2 class="text-xl font-black text-[color:var(--ona-navy)]">{service.title}</h2>
+            <p class="mt-3 leading-8 text-slate-600">{service.description}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-pad bg-white">
+    <div class="container-x grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+      <SectionHeading align="start" {...page.sections.contact} />
+      <div class="soft-card p-6">
+        <p class="text-sm font-black text-slate-500">{isArabic ? "الأرقام الرسمية" : "Official numbers"}</p>
+        <div class="mt-4 grid gap-3 sm:grid-cols-2">
+          <a class="button-primary px-5" href={`tel:${brand.primaryPhone}`}>{brand.displayPrimaryPhone}</a>
+          <a class="button-secondary px-5" href={`tel:${brand.secondaryPhone}`}>{brand.displaySecondaryPhone}</a>
+        </div>
+        <p class="mt-5 leading-8 text-slate-600">{page.fastFollow.body}</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,77 @@
+---
+import {
+  ArrowLeft,
+  BadgeCheck,
+  BriefcaseBusiness,
+  Building2,
+  CheckCircle2,
+  ChevronDown,
+  Circle,
+  ClipboardCheck,
+  Clock,
+  Droplets,
+  Fan,
+  Gauge,
+  Lightbulb,
+  Mail,
+  MapPin,
+  Menu,
+  MessageCircle,
+  Phone,
+  Settings,
+  ShieldCheck,
+  Snowflake,
+  Star,
+  Thermometer,
+  Timer,
+  Users,
+  Wind,
+  Wrench,
+  X,
+  Zap
+} from "@lucide/astro";
+import type { IconName } from "@data/site";
+
+type Props = {
+  name: IconName | "menu" | "x" | "chevron-down" | "arrow-left";
+  class?: string;
+  strokeWidth?: number;
+};
+
+const { name, class: className = "h-5 w-5", strokeWidth = 2 } = Astro.props;
+
+const icons = {
+  "arrow-left": ArrowLeft,
+  badge: BadgeCheck,
+  briefcase: BriefcaseBusiness,
+  building: Building2,
+  check: CheckCircle2,
+  "chevron-down": ChevronDown,
+  clipboard: ClipboardCheck,
+  clock: Clock,
+  droplets: Droplets,
+  fan: Fan,
+  gauge: Gauge,
+  lightbulb: Lightbulb,
+  mail: Mail,
+  map: MapPin,
+  menu: Menu,
+  phone: Phone,
+  settings: Settings,
+  shield: ShieldCheck,
+  snowflake: Snowflake,
+  star: Star,
+  thermometer: Thermometer,
+  timer: Timer,
+  users: Users,
+  whatsapp: MessageCircle,
+  wind: Wind,
+  wrench: Wrench,
+  x: X,
+  zap: Zap
+};
+
+const LucideIcon = icons[name] ?? Circle;
+---
+
+<LucideIcon class={className} stroke-width={strokeWidth} aria-hidden="true" />

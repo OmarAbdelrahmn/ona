@@ -1,0 +1,238 @@
+---
+import Icon from "@components/Icon.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import type { SiteContent } from "@data/site";
+import { brand, getWhatsappUrl } from "@data/site";
+
+type Props = {
+  page: SiteContent;
+};
+
+const { page } = Astro.props;
+const whatsappUrl = getWhatsappUrl(page.locale);
+const isArabic = page.locale === "ar";
+---
+
+<BaseLayout page={page}>
+  <section id="home" class="relative overflow-hidden bg-white">
+    <div class="absolute inset-0">
+      <img
+        src={page.hero.image}
+        alt=""
+        class="h-full w-full object-cover opacity-25"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_28%,rgba(22,168,199,0.18),transparent_34%),linear-gradient(180deg,rgba(247,251,252,0.95)_0%,rgba(255,255,255,0.91)_52%,rgba(247,251,252,0.98)_100%)]"></div>
+    </div>
+
+    <div class="container-x relative flex min-h-[calc(100svh-72px)] items-center justify-center py-14 lg:py-20">
+      <div class="mx-auto max-w-4xl animate-rise text-center">
+        <p class="mb-4 inline-flex items-center gap-2 rounded-lg border border-sky-100 bg-white px-3 py-2 text-sm font-extrabold text-[color:var(--ona-blue)] shadow-sm">
+          <Icon name="badge" class="h-4 w-4" />
+          {page.hero.badge}
+        </p>
+        <h1 class="text-balance mx-auto text-4xl font-black leading-[1.15] text-[color:var(--ona-navy)] sm:text-5xl lg:text-6xl">
+          {page.hero.title}
+        </h1>
+        <p class="mx-auto mt-5 max-w-2xl text-lg font-bold leading-9 text-slate-700 md:text-xl">
+          {page.hero.body}
+        </p>
+        <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <a class="button-primary px-6" href={`tel:${brand.primaryPhone}`}>
+            <Icon name="phone" class="h-5 w-5" />
+            {page.hero.primary}
+          </a>
+          <a class="button-secondary px-6" href={whatsappUrl} target="_blank" rel="noreferrer">
+            <Icon name="whatsapp" class="h-5 w-5" />
+            {page.hero.secondary}
+          </a>
+        </div>
+
+        <div class="mx-auto mt-9 grid max-w-3xl gap-3 sm:grid-cols-3">
+          {page.proofPoints.map((point, index) => (
+            <div class="soft-card animate-rise p-4" style={`animation-delay:${index * 90}ms`}>
+              <Icon name={point.icon} class="mx-auto mb-3 h-5 w-5 text-[color:var(--ona-mint)]" />
+              <p class="font-black text-[color:var(--ona-navy)]">{point.title}</p>
+              <p class="mt-1 text-sm leading-6 text-slate-600">{point.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="section-pad bg-white">
+    <div class="container-x">
+      <SectionHeading {...page.sections.services} />
+      <div class="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {page.services.map((service) => (
+          <article class="soft-card group p-6 transition hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl">
+            <div class="mb-5 grid h-12 w-12 place-items-center rounded-lg bg-sky-50 text-[color:var(--ona-blue)] transition group-hover:bg-[color:var(--ona-blue)] group-hover:text-white">
+              <Icon name={service.icon} class="h-6 w-6" />
+            </div>
+            <h3 class="text-xl font-black text-[color:var(--ona-navy)]">{service.title}</h3>
+            <p class="mt-3 leading-8 text-slate-600">{service.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-[color:var(--ona-paper)]">
+    <div class="container-x">
+      <div class="grid gap-6 lg:grid-cols-3">
+        {page.imageServices.map((service) => (
+          <article class="soft-card group overflow-hidden bg-white">
+            <img src={service.image} alt={service.alt} class="aspect-[16/10] w-full object-cover transition duration-500 group-hover:scale-[1.03]" loading="lazy" />
+            <div class="p-6">
+              <h3 class="text-xl font-black text-[color:var(--ona-navy)]">{service.title}</h3>
+              <p class="mt-3 leading-8 text-slate-600">{service.description}</p>
+              <a class="mt-5 inline-flex min-h-10 items-center gap-2 rounded-lg text-sm font-black text-[color:var(--ona-blue)]" href={`tel:${brand.primaryPhone}`}>
+                {isArabic ? "اطلب الخدمة" : "Request service"}
+                <Icon name="arrow-left" class="h-4 w-4" />
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="coverage" class="section-pad bg-white">
+    <div class="container-x grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+      <div>
+        <SectionHeading align="start" {...page.sections.national} />
+        <div class="mt-7 rounded-lg border border-sky-100 bg-sky-50/70 p-5">
+          <p class="text-sm font-black text-[color:var(--ona-blue)]">{isArabic ? "نطاق الخدمة الحالي" : "Current service scope"}</p>
+          <p class="mt-2 text-2xl font-black text-[color:var(--ona-navy)]">
+            {isArabic ? brand.addressAr : brand.addressEn}
+          </p>
+        </div>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-3">
+        {page.nationalCoverage.map((area) => (
+          <article class="soft-card p-5">
+            <Icon name={area.icon} class="h-6 w-6 text-[color:var(--ona-mint)]" />
+            <h3 class="mt-4 font-black text-[color:var(--ona-navy)]">{area.title}</h3>
+            <p class="mt-2 text-sm leading-7 text-slate-600">{area.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="why" class="section-pad bg-[color:var(--ona-paper)]">
+    <div class="container-x grid gap-12 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
+      <SectionHeading align="start" {...page.sections.why} />
+      <div class="grid gap-4 sm:grid-cols-2">
+        {page.whyCards.map((point) => (
+          <article class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+            <Icon name={point.icon} class="h-6 w-6 text-[color:var(--ona-mint)]" />
+            <h3 class="mt-4 font-black text-[color:var(--ona-navy)]">{point.title}</h3>
+            <p class="mt-2 text-sm leading-7 text-slate-600">{point.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-[color:var(--ona-navy)] text-white">
+    <div class="container-x">
+      <SectionHeading {...page.sections.problems} />
+      <div class="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {page.problems.map((problem) => (
+          <article class="rounded-lg border border-white/12 bg-white/7 p-6 transition hover:-translate-y-1 hover:bg-white/10">
+            <Icon name={problem.icon} class="h-6 w-6 text-cyan-200" />
+            <h3 class="mt-4 text-lg font-black text-white">{problem.title}</h3>
+            <p class="mt-3 leading-8 text-sky-50/82">{problem.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-white">
+    <div class="container-x">
+      <SectionHeading {...page.sections.sectors} />
+      <div class="mt-12 grid gap-4 lg:grid-cols-3">
+        {page.sectors.map((sector) => (
+          <article class="soft-card p-6">
+            <Icon name={sector.icon} class="h-7 w-7 text-[color:var(--ona-blue)]" />
+            <h3 class="mt-5 text-xl font-black text-[color:var(--ona-navy)]">{sector.title}</h3>
+            <p class="mt-3 leading-8 text-slate-600">{sector.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-[color:var(--ona-paper)]">
+    <div class="container-x">
+      <SectionHeading {...page.sections.process} />
+      <div class="mt-12 grid gap-4 lg:grid-cols-3">
+        {page.processSteps.map((step, index) => (
+          <article class="relative rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+            <span class:list={["absolute top-5 text-5xl font-black text-slate-100", isArabic ? "left-5" : "right-5"]}>
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <Icon name={step.icon} class="h-7 w-7 text-[color:var(--ona-blue)]" />
+            <h3 class="mt-5 text-xl font-black text-[color:var(--ona-navy)]">{step.title}</h3>
+            <p class="mt-3 leading-8 text-slate-600">{step.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section-pad bg-white">
+    <div class="container-x max-w-4xl">
+      <SectionHeading {...page.sections.faq} />
+      <div class="mt-10 grid gap-3">
+        {page.faqs.map((faq) => (
+          <details class="group rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+            <summary class="flex min-h-12 cursor-pointer items-center justify-between gap-4">
+              <span class="text-base font-black text-[color:var(--ona-navy)] md:text-lg">{faq.question}</span>
+              <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-sky-50 text-[color:var(--ona-blue)] transition group-open:rotate-180">
+                <Icon name="chevron-down" class="h-5 w-5" />
+              </span>
+            </summary>
+            <p class="mt-4 leading-8 text-slate-600">{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section-pad bg-[color:var(--ona-paper)]">
+    <div class="container-x grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+      <div>
+        <SectionHeading align="start" {...page.sections.contact} />
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a class="button-primary px-6" href={whatsappUrl} target="_blank" rel="noreferrer">
+            <Icon name="whatsapp" class="h-5 w-5" />
+            {page.header.whatsapp}
+          </a>
+          <a class="button-secondary px-6" href={`tel:${brand.secondaryPhone}`}>
+            <Icon name="phone" class="h-5 w-5" />
+            {brand.displaySecondaryPhone}
+          </a>
+        </div>
+      </div>
+
+      <div class="soft-card grid gap-3 p-4 sm:grid-cols-2">
+        {page.contactMethods.map((method) => (
+          <a class="rounded-lg border border-slate-200 bg-white p-5 transition hover:border-sky-200 hover:bg-sky-50/60" href={method.href} target={method.href.startsWith("http") ? "_blank" : undefined} rel={method.href.startsWith("http") ? "noreferrer" : undefined}>
+            <Icon name={method.icon} class="h-6 w-6 text-[color:var(--ona-blue)]" />
+            <p class="mt-4 text-sm font-black text-slate-500">{method.label}</p>
+            <p class="mt-1 break-words font-black text-[color:var(--ona-navy)]">{method.value}</p>
+          </a>
+        ))}
+        <div class="rounded-lg border border-amber-200 bg-amber-50 p-5 sm:col-span-2">
+          <p class="font-black text-amber-900">{page.fastFollow.title}</p>
+          <p class="mt-2 leading-8 text-amber-900/80">{page.fastFollow.body}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
