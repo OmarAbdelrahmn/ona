@@ -33,7 +33,7 @@ const whatsappUrl = getWhatsappUrl(page.locale);
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content={page.locale === "ar" ? "ar_SA" : "en_US"} />
-    <meta property="og:image" content="/images/ona-hero-hvac-ksa.png" />
+    <meta property="og:image" content={page.socialImage} />
     <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)}></script>
   </head>
   <body class="antialiased">
@@ -53,7 +53,7 @@ const whatsappUrl = getWhatsappUrl(page.locale);
           </div>
         </div>
         <div class="flex flex-wrap items-center gap-3">
-          <a class="inline-flex min-h-10 items-center font-bold hover:text-[color:var(--ona-blue)]" href={`tel:${brand.primaryPhone}`}>{brand.displayPrimaryPhone}</a>
+          <a class="phone-number inline-flex min-h-10 items-center font-bold hover:text-[color:var(--ona-blue)]" href={`tel:${brand.primaryPhone}`}>{brand.displayPrimaryPhone}</a>
           <span aria-hidden="true">|</span>
           <a class="inline-flex min-h-10 items-center font-bold hover:text-[color:var(--ona-blue)]" href={`mailto:${brand.email}`}>{brand.email}</a>
         </div>

@@ -99,6 +99,59 @@ const isArabic = page.locale === "ar";
     </div>
   </section>
 
+  <section class="section-pad bg-white">
+    <div class="container-x grid gap-10 lg:grid-cols-[0.86fr_1.14fr] lg:items-center">
+      <div>
+        <SectionHeading align="start" {...page.sections.commercial} />
+        <div class="mt-7 flex flex-wrap gap-2">
+          {page.commercialBrands.map((brandName) => (
+            <span class="rounded-lg border border-sky-100 bg-sky-50 px-4 py-2 text-sm font-black text-[color:var(--ona-navy)]">
+              {brandName}
+            </span>
+          ))}
+        </div>
+        <p class="mt-4 text-sm font-bold leading-7 text-slate-500">
+          {isArabic
+            ? "خبرة في التعامل مع متطلبات الأنظمة العالمية دون ادعاء شراكة رسمية مع العلامات المذكورة."
+            : "Experience supporting global HVAC system requirements without claiming official partnership with the brands shown."}
+        </p>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-3">
+        {page.commercialCapabilities.map((capability) => (
+          <article class="soft-card p-5">
+            <Icon name={capability.icon} class="h-6 w-6 text-[color:var(--ona-blue)]" />
+            <h3 class="mt-4 font-black text-[color:var(--ona-navy)]">{capability.title}</h3>
+            <p class="mt-2 text-sm leading-7 text-slate-600">{capability.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="section-pad bg-[color:var(--ona-paper)]">
+    <div class="container-x">
+      <SectionHeading {...page.sections.projects} />
+      <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {page.projectPhotos.map((photo, index) => (
+          <article class:list={["group overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl", index === 0 ? "lg:col-span-2" : ""]}>
+            <div class="relative">
+              <img
+                src={photo.image}
+                alt={photo.alt}
+                class:list={["w-full object-cover transition duration-500 group-hover:scale-[1.03]", index === 0 ? "aspect-[16/8.4]" : "aspect-[4/3]"]}
+                loading="lazy"
+              />
+              <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/82 to-transparent p-4">
+                <h3 class="text-lg font-black text-white">{photo.title}</h3>
+                <p class="mt-1 text-sm font-bold leading-6 text-white/82">{photo.description}</p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <section id="coverage" class="section-pad bg-white">
     <div class="container-x grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
       <div>
@@ -122,6 +175,26 @@ const isArabic = page.locale === "ar";
     </div>
   </section>
 
+  <section class="section-pad bg-white">
+    <div class="container-x grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+      <div class="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+        <img src={page.teamSpotlight.image} alt={page.teamSpotlight.alt} class="aspect-[16/10] w-full object-cover" loading="lazy" />
+      </div>
+      <div>
+        <SectionHeading align="start" {...page.sections.team} />
+        <p class="mt-5 text-lg font-bold leading-9 text-slate-700">{page.teamSpotlight.description}</p>
+        <div class="mt-7 grid gap-3">
+          {page.teamSpotlight.bullets.map((bullet) => (
+            <p class="flex items-start gap-3 rounded-lg border border-slate-200 bg-[color:var(--ona-paper)] p-4 font-bold leading-7 text-slate-700">
+              <Icon name="check" class="mt-1 h-5 w-5 shrink-0 text-[color:var(--ona-mint)]" />
+              <span>{bullet}</span>
+            </p>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="why" class="section-pad bg-[color:var(--ona-paper)]">
     <div class="container-x grid gap-12 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
       <SectionHeading align="start" {...page.sections.why} />
@@ -139,7 +212,17 @@ const isArabic = page.locale === "ar";
 
   <section class="section-pad bg-[color:var(--ona-navy)] text-white">
     <div class="container-x">
-      <SectionHeading {...page.sections.problems} />
+      <div class="mx-auto max-w-3xl text-center">
+        <p class="mb-3 text-sm font-extrabold tracking-normal text-cyan-200">
+          {page.sections.problems.eyebrow}
+        </p>
+        <h2 class="text-balance text-3xl font-black leading-tight text-white md:text-4xl">
+          {page.sections.problems.title}
+        </h2>
+        <p class="mx-auto mt-4 max-w-2xl text-base leading-8 text-sky-50 md:text-lg">
+          {page.sections.problems.description}
+        </p>
+      </div>
       <div class="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {page.problems.map((problem) => (
           <article class="rounded-lg border border-white/12 bg-white/7 p-6 transition hover:-translate-y-1 hover:bg-white/10">
@@ -215,7 +298,7 @@ const isArabic = page.locale === "ar";
           </a>
           <a class="button-secondary px-6" href={`tel:${brand.secondaryPhone}`}>
             <Icon name="phone" class="h-5 w-5" />
-            {brand.displaySecondaryPhone}
+            <span class="phone-number">{brand.displaySecondaryPhone}</span>
           </a>
         </div>
       </div>
@@ -225,7 +308,7 @@ const isArabic = page.locale === "ar";
           <a class="rounded-lg border border-slate-200 bg-white p-5 transition hover:border-sky-200 hover:bg-sky-50/60" href={method.href} target={method.href.startsWith("http") ? "_blank" : undefined} rel={method.href.startsWith("http") ? "noreferrer" : undefined}>
             <Icon name={method.icon} class="h-6 w-6 text-[color:var(--ona-blue)]" />
             <p class="mt-4 text-sm font-black text-slate-500">{method.label}</p>
-            <p class="mt-1 break-words font-black text-[color:var(--ona-navy)]">{method.value}</p>
+            <p class:list={["mt-1 break-words font-black text-[color:var(--ona-navy)]", method.href.startsWith("tel:") || method.label.toLowerCase() === "whatsapp" || method.label === "واتساب" ? "phone-number" : ""]}>{method.value}</p>
           </a>
         ))}
         <div class="rounded-lg border border-amber-200 bg-amber-50 p-5 sm:col-span-2">
