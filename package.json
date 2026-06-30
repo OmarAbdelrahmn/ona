@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "set ASTRO_TELEMETRY_DISABLED=1&& astro build",
+    "build": "astro build",
     "preview": "astro preview"
   },
   "dependencies": {
