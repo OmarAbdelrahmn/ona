@@ -15,6 +15,7 @@ type Props = {
 
 const { page, altHref, title = page.title, description = page.description, canonical = page.locale === "ar" ? "/" : "/en/" } = Astro.props;
 const whatsappUrl = getWhatsappUrl(page.locale);
+const siteName = page.locale === "ar" ? brand.arName : brand.enName;
 ---
 
 <!doctype html>
@@ -24,16 +25,31 @@ const whatsappUrl = getWhatsappUrl(page.locale);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#123d64" />
+    <meta name="color-scheme" content="light" />
+    <meta name="format-detection" content="telephone=yes" />
     <meta name="robots" content="index, follow" />
     <title>{title}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="ar" href="/" />
     <link rel="alternate" hreflang="en" href="/en/" />
+    <link rel="alternate" hreflang="x-default" href="/" />
+    <meta name="application-name" content={siteName} />
+    <meta name="apple-mobile-web-app-title" content={siteName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={page.locale === "ar" ? "ar_SA" : "en_US"} />
     <meta property="og:image" content={page.socialImage} />
+    <meta property="og:image:alt" content={page.socialImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={page.socialImage} />
+    <meta name="twitter:image:alt" content={page.socialImageAlt} />
     <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)}></script>
   </head>
   <body class="antialiased">
